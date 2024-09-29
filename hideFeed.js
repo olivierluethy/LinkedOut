@@ -28,7 +28,7 @@ function removeElements() {
   } 
   // Remove elements inside "mynetwork"
   else if (
-    window.location.href.startsWith("https://www.linkedin.com/mynetwork")
+    window.location.href.startsWith("https://www.linkedin.com/mynetwork/grow")
   ) {
     const networkGrow = document.querySelector(
       ".scaffold-finite-scroll__content"
@@ -36,10 +36,15 @@ function removeElements() {
     if (networkGrow) {
       networkGrow.remove();
     }
+
+    const showMore = document.querySelector('.scaffold-finite-scroll.scaffold-finite-scroll--finite');
+    if (showMore){
+      showMore.remove();
+    }
   } 
   // Remove elements inside the profile part
   else if (window.location.href.startsWith("https://www.linkedin.com/in")) {
-    const embeddedNetwork = document.querySelector(".scaffold-layout__aside");
+    const embeddedNetwork = document.querySelector("aside.scaffold-layout__aside");
 
     if (embeddedNetwork) {
       // Keep the .pv-profile-info-section.artdeco-card.p4.mb2 element
