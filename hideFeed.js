@@ -1,9 +1,25 @@
 // Function to remove the feed, news section, and the feed follows module
 function removeElements() {
+  // Remove notifications tab
+  const notifyClock = document.querySelector(
+    '.global-nav__nav[aria-label="Primary Navigation"] ul.global-nav__primary-items li:nth-child(5)'
+  );
+  if (notifyClock) {
+    notifyClock.style.visibility = "hidden";
+  }
+
   // Remove elements inside the feed
   if (window.location.href.includes("linkedin.com/feed/")) {
+    // Remove sorting part
+    const filterPart = document.querySelector(
+      '[id^="ember"].mb2.artdeco-dropdown.artdeco-dropdown--placement-bottom.artdeco-dropdown--justification-right.ember-view'
+    );
+    if (filterPart) {
+      filterPart.remove();
+    }
+
     // Remove the main feed element
-    const mainElement = document.getElementsByTagName("main")[0];
+    const mainElement = document.querySelector(".relative");
     if (mainElement) {
       mainElement.remove();
     }
@@ -25,7 +41,7 @@ function removeElements() {
     if (footer) {
       footer.remove();
     }
-  } 
+  }
   // Remove elements inside "mynetwork"
   else if (
     window.location.href.startsWith("https://www.linkedin.com/mynetwork/grow")
@@ -37,14 +53,18 @@ function removeElements() {
       networkGrow.remove();
     }
 
-    const showMore = document.querySelector('.scaffold-finite-scroll.scaffold-finite-scroll--finite');
-    if (showMore){
+    const showMore = document.querySelector(
+      ".scaffold-finite-scroll.scaffold-finite-scroll--finite"
+    );
+    if (showMore) {
       showMore.remove();
     }
-  } 
+  }
   // Remove elements inside the profile part
   else if (window.location.href.startsWith("https://www.linkedin.com/in")) {
-    const embeddedNetwork = document.querySelector("aside.scaffold-layout__aside");
+    const embeddedNetwork = document.querySelector(
+      "aside.scaffold-layout__aside"
+    );
 
     if (embeddedNetwork) {
       // Keep the .pv-profile-info-section.artdeco-card.p4.mb2 element
@@ -59,6 +79,13 @@ function removeElements() {
           node.remove();
         }
       });
+    }
+  } else if (window.location.href.includes("linkedin.com/groups/")) {
+    const recommendedGroups = document.querySelector(
+      'aside.scaffold-layout__aside[aria-label="Groups you might be interested in"]'
+    );
+    if (recommendedGroups) {
+      recommendedGroups.remove();
     }
   }
 }
