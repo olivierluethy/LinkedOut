@@ -7,7 +7,11 @@ function removeElements() {
   if (notifyClock) {
     notifyClock.style.visibility = "hidden";
   }
-
+  // Remove Try Premium for CHF0 on navigation
+  const tryNavPremium = document.querySelector(".premium-upsell-link");
+  if (tryNavPremium) {
+    tryNavPremium.style.visibility = "hidden";
+  }
   // Remove elements inside the feed
   if (window.location.href.includes("linkedin.com/feed/")) {
     // Remove sorting part
@@ -41,11 +45,25 @@ function removeElements() {
     if (footer) {
       footer.remove();
     }
+    // Remove Try Premium Button in feed
+    const tryFeedPremium = document.querySelector(
+      ".app-aware-link.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left"
+    );
+    if (tryFeedPremium) {
+      tryFeedPremium.remove();
+    }
   }
   // Remove elements inside "mynetwork"
   else if (
     window.location.href.startsWith("https://www.linkedin.com/mynetwork/grow")
   ) {
+    // Remove related connection to just accepted connection
+    const relatedConnect = document.querySelector(".mn-suggester.artdeco-card");
+    if (relatedConnect) {
+      relatedConnect.remove();
+    }
+
+    // Remove connection recommendations
     const networkGrow = document.querySelector(
       ".scaffold-finite-scroll__content"
     );
@@ -53,6 +71,7 @@ function removeElements() {
       networkGrow.remove();
     }
 
+    // Remove show more button
     const showMore = document.querySelector(
       ".scaffold-finite-scroll.scaffold-finite-scroll--finite"
     );
