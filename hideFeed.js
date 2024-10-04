@@ -19,6 +19,13 @@ function removeElements() {
   if (redButtonHouse) {
     redButtonHouse.style.display = "none";
   }
+  // If user tries to cheat and tries to get access to notifications through URL
+  if (
+    window.location.hostname === "www.linkedin.com" &&
+    window.location.pathname.startsWith("/notifications") // Überprüfung auf die URL mit Filter
+  ) {
+    window.location.href = "https://www.linkedin.com/";
+  }
   // Remove elements inside the feed
   if (window.location.href.includes("linkedin.com/feed/")) {
     // Remove sorting part
@@ -53,7 +60,9 @@ function removeElements() {
       footer.remove();
     }
     // Remove Try Premium Button in feed on the left side of profile section
-    const tryFeedPremium = document.querySelector(".app-aware-link.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left");
+    const tryFeedPremium = document.querySelector(
+      ".app-aware-link.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left"
+    );
     if (tryFeedPremium) {
       tryFeedPremium.remove();
     }
@@ -150,11 +159,11 @@ async function attemptToRemoveElement(elementName) {
   }
 }
 
-// Set an interval to attempt to remove elements every 5 seconds
+// Set an interval to attempt to remove elements every 1 second
 setInterval(() => {
   removeElements(); // Remove immediately if elements exist
   attemptToRemoveElement("feed-news-module"); // Try to remove the news section if it loads later
-}, 100);
+}, 1000);
 
 // Immediately attempt to remove elements on script run
 removeElements();
