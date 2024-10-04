@@ -52,10 +52,8 @@ function removeElements() {
     if (footer) {
       footer.remove();
     }
-    // Remove Try Premium Button in feed
-    const tryFeedPremium = document.querySelector(
-      ".app-aware-link.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left"
-    );
+    // Remove Try Premium Button in feed on the left side of profile section
+    const tryFeedPremium = document.querySelector(".app-aware-link.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left");
     if (tryFeedPremium) {
       tryFeedPremium.remove();
     }
@@ -88,23 +86,32 @@ function removeElements() {
   }
   // Remove elements inside the profile part
   else if (window.location.href.startsWith("https://www.linkedin.com/in")) {
+    // Die ganze rechte Seite
     const embeddedNetwork = document.querySelector(
       "aside.scaffold-layout__aside"
     );
 
     if (embeddedNetwork) {
-      // Keep the .pv-profile-info-section.artdeco-card.p4.mb2 element
+      // Keep Profile language and Public profile & URL section alive
       const keepAliveClass = embeddedNetwork.querySelector(
         ".pv-profile-info-section.artdeco-card.p4.mb2"
       );
 
-      // Remove all child nodes of embeddedNetwork except for keepAliveClass
+      // Überprüfen, ob das Element #artdeco-modal-outlet vorhanden ist
+      const modalOutlet = document.querySelector("#artdeco-modal-outlet");
+
+      // Remove all child nodes of embeddedNetwork except for keepAliveClass and modal popup
       Array.from(embeddedNetwork.childNodes).forEach((node) => {
-        // Check if the node is the keepAliveClass
-        if (node !== keepAliveClass) {
+        // Check if the node is the keepAliveClass or the modalOutlet
+        if (node !== keepAliveClass && node !== modalOutlet) {
           node.remove();
         }
       });
+
+      // Sicherstellen, dass das modalOutlet sichtbar ist
+      if (modalOutlet) {
+        modalOutlet.style.display = "block";
+      }
     }
   } else if (window.location.href.includes("linkedin.com/groups/")) {
     const recommendedGroups = document.querySelector(
@@ -115,7 +122,7 @@ function removeElements() {
     }
   }
 }
-
+/* Wenn man schnell ohne Reload tabs switcht damit die Route trotzdem überprüft wird */
 // Attempt to continuously remove elements if they load later
 const maxPing = 5;
 const waitBetweenPings = 100;
