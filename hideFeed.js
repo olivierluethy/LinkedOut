@@ -12,6 +12,13 @@ function removeElements() {
   if (tryNavPremium) {
     tryNavPremium.style.visibility = "hidden";
   }
+  // Remove red button over home house button
+  const redButtonHouse = document.querySelector(
+    ".notification-badge.notification-badge--show "
+  );
+  if (redButtonHouse) {
+    redButtonHouse.style.display = "none";
+  }
   // Remove elements inside the feed
   if (window.location.href.includes("linkedin.com/feed/")) {
     // Remove sorting part
