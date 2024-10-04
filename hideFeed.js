@@ -7,11 +7,13 @@ function removeElements() {
   if (notifyClock) {
     notifyClock.style.visibility = "hidden";
   }
+
   // Remove Try Premium for CHF0 on navigation
   const tryNavPremium = document.querySelector(".premium-upsell-link");
   if (tryNavPremium) {
     tryNavPremium.style.visibility = "hidden";
   }
+
   // Remove red button over home house button
   const redButtonHouse = document.querySelector(
     ".notification-badge.notification-badge--show "
@@ -19,13 +21,15 @@ function removeElements() {
   if (redButtonHouse) {
     redButtonHouse.style.display = "none";
   }
+
   // If user tries to cheat and tries to get access to notifications through URL
   if (
     window.location.hostname === "www.linkedin.com" &&
-    window.location.pathname.startsWith("/notifications") // Überprüfung auf die URL mit Filter
+    window.location.pathname.startsWith("/notifications")
   ) {
     window.location.href = "https://www.linkedin.com/";
   }
+
   // Remove elements inside the feed
   if (window.location.href.includes("linkedin.com/feed/")) {
     // Remove sorting part
@@ -59,6 +63,7 @@ function removeElements() {
     if (footer) {
       footer.remove();
     }
+
     // Remove Try Premium Button in feed on the left side of profile section
     const tryFeedPremium = document.querySelector(
       ".app-aware-link.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left"
@@ -95,29 +100,22 @@ function removeElements() {
   }
   // Remove elements inside the profile part
   else if (window.location.href.startsWith("https://www.linkedin.com/in")) {
-    // Die ganze rechte Seite
     const embeddedNetwork = document.querySelector(
       "aside.scaffold-layout__aside"
     );
 
     if (embeddedNetwork) {
-      // Keep Profile language and Public profile & URL section alive
       const keepAliveClass = embeddedNetwork.querySelector(
         ".pv-profile-info-section.artdeco-card.p4.mb2"
       );
-
-      // Überprüfen, ob das Element #artdeco-modal-outlet vorhanden ist
       const modalOutlet = document.querySelector("#artdeco-modal-outlet");
 
-      // Remove all child nodes of embeddedNetwork except for keepAliveClass and modal popup
       Array.from(embeddedNetwork.childNodes).forEach((node) => {
-        // Check if the node is the keepAliveClass or the modalOutlet
         if (node !== keepAliveClass && node !== modalOutlet) {
           node.remove();
         }
       });
 
-      // Sicherstellen, dass das modalOutlet sichtbar ist
       if (modalOutlet) {
         modalOutlet.style.display = "block";
       }
@@ -131,39 +129,10 @@ function removeElements() {
     }
   }
 }
-/* Wenn man schnell ohne Reload tabs switcht damit die Route trotzdem überprüft wird */
-// Attempt to continuously remove elements if they load later
-const maxPing = 5;
-const waitBetweenPings = 100;
 
-async function attemptToRemoveElement(elementName) {
-  let ping = 0;
-  let removed = false;
-
-  async function wait(ms) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const element = document.getElementById(elementName);
-        if (element) {
-          element.remove();
-          removed = true;
-        }
-        ping++;
-        resolve();
-      }, ms);
-    });
-  }
-
-  while (!removed && ping < maxPing) {
-    await wait(waitBetweenPings);
-  }
-}
-
-// Set an interval to attempt to remove elements every 1 second
-setInterval(() => {
-  removeElements(); // Remove immediately if elements exist
-  attemptToRemoveElement("feed-news-module"); // Try to remove the news section if it loads later
-}, 1000);
+// Function to observe changes in the DOM
+const observer = new MutationObserver(removeElements);
+observer.observe(document.body, { childList: true, subtree: true });
 
 // Immediately attempt to remove elements on script run
 removeElements();
