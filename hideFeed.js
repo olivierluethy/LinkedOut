@@ -41,7 +41,9 @@ function removeElements() {
     }
 
     // Remove the main feed element
-    const mainElement = document.querySelector(".scaffold-finite-scroll.scaffold-finite-scroll--infinite");
+    const mainElement = document.querySelector(
+      ".scaffold-finite-scroll.scaffold-finite-scroll--infinite"
+    );
     if (mainElement) {
       mainElement.remove();
     }
@@ -77,7 +79,7 @@ function removeElements() {
     window.location.href.startsWith("https://www.linkedin.com/mynetwork/grow")
   ) {
     // Remove related connection to just accepted connection
-    const relatedConnect = document.querySelector(".mn-suggester.artdeco-card");
+    const relatedConnect = document.querySelector("ul.artdeco-card.mb4.overflow-hidden");
     if (relatedConnect) {
       relatedConnect.remove();
     }
@@ -91,33 +93,25 @@ function removeElements() {
     }
 
     // Remove show more button
-    const showMore = document.querySelector(
-      ".scaffold-finite-scroll.scaffold-finite-scroll--finite"
-    );
+    const showMore = document.querySelector('[data-launchpad-scroll-anchor="pymk"]');
     if (showMore) {
       showMore.remove();
     }
   }
   // Remove elements inside the profile part
   else if (window.location.href.startsWith("https://www.linkedin.com/in")) {
-    const embeddedNetwork = document.querySelector(
-      "aside.scaffold-layout__aside"
-    );
-
-    if (embeddedNetwork) {
-      const keepAliveClass = embeddedNetwork.querySelector(
-        ".pv-profile-info-section.artdeco-card.p4.mb2"
+    // To remove everything from the right sight except for profile language and public profile & url
+    // Select the aside element on the right
+    const asideElement = document.querySelector("aside.scaffold-layout__aside");
+    if (asideElement) {
+      // Remove profile recommendations
+      const profileCard = asideElement.querySelector(
+        "section.artdeco-card.pv-profile-card.break-words.mt2[data-view-name='profile-card']"
       );
-      const modalOutlet = document.querySelector("#artdeco-modal-outlet");
 
-      Array.from(embeddedNetwork.childNodes).forEach((node) => {
-        if (node !== keepAliveClass && node !== modalOutlet) {
-          node.remove();
-        }
-      });
-
-      if (modalOutlet) {
-        modalOutlet.style.display = "block";
+      // Remove the section element if it exists
+      if (profileCard) {
+        profileCard.remove();
       }
     }
   } else if (window.location.href.includes("linkedin.com/groups/")) {
