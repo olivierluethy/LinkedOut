@@ -41,7 +41,7 @@ function removeElements() {
     }
 
     // Remove the main feed element
-    const mainElement = document.querySelector(".relative");
+    const mainElement = document.querySelector(".scaffold-finite-scroll.scaffold-finite-scroll--infinite");
     if (mainElement) {
       mainElement.remove();
     }
