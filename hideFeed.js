@@ -1,5 +1,9 @@
 // Function to remove the feed, news section, and the feed follows module
 function removeElements() {
+  // Überprüfe, ob der Titel Benachrichtigungen enthält und entferne sie
+  if (/\(\d+\)/.test(document.title)) {
+    document.title = document.title.replace(/\s*\(\d+\)/g, "");
+  }
   // Remove notifications tab
   const notifyClock = document.querySelector(
     '.global-nav__nav[aria-label="Primary Navigation"] ul.global-nav__primary-items li:nth-child(5)'
@@ -61,8 +65,8 @@ function removeElements() {
     }
 
     // Remove new posts button
-    const newPosts = document.querySelector('.feed-new-update-pill');
-    if(newPosts){
+    const newPosts = document.querySelector(".feed-new-update-pill");
+    if (newPosts) {
       newPosts.remove();
     }
 
@@ -85,7 +89,9 @@ function removeElements() {
     window.location.href.startsWith("https://www.linkedin.com/mynetwork/grow")
   ) {
     // Remove related connection to just accepted connection
-    const relatedConnect = document.querySelector("ul.artdeco-card.mb4.overflow-hidden");
+    const relatedConnect = document.querySelector(
+      "ul.artdeco-card.mb4.overflow-hidden"
+    );
     if (relatedConnect) {
       relatedConnect.remove();
     }
@@ -98,10 +104,25 @@ function removeElements() {
       networkGrow.remove();
     }
 
+    // Remove suggested people after connecting with someone
+    const connSomeone = document.querySelector('.mn-suggester.artdeco-card');
+    if(connSomeone){
+      connSomeone.remove();
+    }
+
     // Remove show more button
-    const showMore = document.querySelector('[data-launchpad-scroll-anchor="pymk"]');
+    const showMore = document.querySelector(
+      '[data-launchpad-scroll-anchor="pymk"]'
+    );
     if (showMore) {
       showMore.remove();
+    }
+
+    const button = document.querySelector(
+      ".scaffold-finite-scroll.scaffold-finite-scroll--finite"
+    );
+    if (button) {
+      button.remove();
     }
   }
   // Remove elements inside the profile part
