@@ -60,6 +60,12 @@ function removeElements() {
       newsElement.remove();
     }
 
+    // Remove new posts button
+    const newPosts = document.querySelector('.feed-new-update-pill');
+    if(newPosts){
+      newPosts.remove();
+    }
+
     // Remote the footer part
     const footer = document.querySelector(".scaffold-layout__aside");
     if (footer) {
