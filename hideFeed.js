@@ -141,6 +141,11 @@ function removeElements() {
         profileCard.remove();
       }
     }
+    // Remove Recommendations for Courses
+    const courseElement = document.querySelector('section.pv-course-recommendations');
+    if(courseElement){
+      courseElement.remove();
+    }
   } else if (window.location.href.includes("linkedin.com/groups/")) {
     const recommendedGroups = document.querySelector(
       'aside.scaffold-layout__aside[aria-label="Groups you might be interested in"]'
