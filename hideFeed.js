@@ -44,6 +44,18 @@ function removeElements() {
       filterPart.remove();
     }
 
+    // Select field view filter
+    const filterView = document.querySelector(".feed-sort-toggle-dsa__wrapper");
+    if (filterView){
+      filterView.remove();
+    }
+
+    // See new posts button / If user doesn't folow anyone
+    const newPostsButton = document.querySelector(".artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal");
+    if(newPostsButton){
+      newPostsButton.remove();
+    }
+
     // Remove the main feed element
     const mainElement = document.querySelector(
       ".scaffold-finite-scroll.scaffold-finite-scroll--infinite"
