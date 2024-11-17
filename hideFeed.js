@@ -36,71 +36,126 @@ function removeElements() {
 
   // Remove elements inside the feed
   if (window.location.href.includes("linkedin.com/feed/")) {
-    // Remove sorting part
-    const filterPart = document.querySelector(
-      '[id^="ember"].mb2.artdeco-dropdown.artdeco-dropdown--placement-bottom.artdeco-dropdown--justification-right.ember-view'
-    );
-    if (filterPart) {
-      filterPart.remove();
+    // Target the element where new content is loaded (replace with the appropriate selector)
+    const contentContainer = document.querySelector(".relative"); // Replace with LinkedIn's specific selector
+
+    // Create a MutationObserver instance
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        // Check for added nodes
+        if (mutation.addedNodes.length > 0) {
+          const addedNodes = Array.from(mutation.addedNodes);
+          addedNodes.forEach((node) => {
+            // Check if the added node itself or its descendants have the class 'relative'
+            const relativeElements = node.querySelectorAll("[data-view-name='feed-full-update']");
+            relativeElements.forEach((relativeElement) => {
+              // Check if the relativeElement contains an element with the specified header class
+              const updateHeader = relativeElement.querySelector(
+                ".update-components-header__text-wrapper"
+              );
+              if (updateHeader) {
+                // Remove the entire post
+                relativeElement.remove();
+              }
+            });
+          });
+        }
+      });
+    });
+
+    // Configure the observer to watch for changes in child nodes
+    const config = { childList: true, subtree: true };
+
+    // Observe the content container for mutations
+    if (contentContainer) {
+      observer.observe(contentContainer, config);
     }
 
-    // Select field view filter
-    const filterView = document.querySelector(".feed-sort-toggle-dsa__wrapper");
-    if (filterView) {
-      filterView.remove();
-    }
-    // See new posts button / If user doesn't folow anyone
-    const newPostsButton = document.querySelector(
-      ".artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal"
-    );
-    if (newPostsButton) {
-      newPostsButton.remove();
-    }
+    // Run the script initially for existing content
+    const relativeElements = document.querySelectorAll("[data-view-name='feed-full-update']");
+    relativeElements.forEach((relativeElement) => {
+      const updateHeader = relativeElement.querySelector(
+        ".update-components-header__text-wrapper"
+      );
+      if (updateHeader) {
+        // Remove the entire post
+        relativeElement.remove();
+      }
+    });
 
-    // Remove the main feed element
-    const mainElement = document.querySelector(
-      ".scaffold-finite-scroll.scaffold-finite-scroll--infinite"
-    );
-    if (mainElement) {
-      mainElement.remove();
-    }
+    // // Remove sorting part
+    // const filterPart = document.querySelector(
+    //   '[id^="ember"].mb2.artdeco-dropdown.artdeco-dropdown--placement-bottom.artdeco-dropdown--justification-right.ember-view'
+    // );
+    // if (filterPart) {
+    //   filterPart.remove();
+    // }
 
-    // Remove the element with the class "feed-follows-module"
-    const addtoFeed = document.querySelector(".feed-follows-module");
-    if (addtoFeed) {
-      addtoFeed.remove();
-    }
+    // // Select field view filter
+    // const filterView = document.querySelector(".feed-sort-toggle-dsa__wrapper");
+    // if (filterView) {
+    //   filterView.remove();
+    // }
+    // // See new posts button / If user doesn't folow anyone
+    // const newPostsButton = document.querySelector(
+    //   ".artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal"
+    // );
+    // if (newPostsButton) {
+    //   newPostsButton.remove();
+    // }
 
-    // Remove the news section
-    const newsElement = document.getElementById("feed-news-module");
-    if (newsElement) {
-      newsElement.remove();
-    }
+    // // Remove the main feed element
+    // const mainElement = document.querySelector(
+    //   ".scaffold-finite-scroll.scaffold-finite-scroll--infinite"
+    // );
+    // if (mainElement) {
+    //   mainElement.remove();
+    // }
 
-    // Remove new posts button
-    const newPosts = document.querySelector(".feed-new-update-pill");
-    if (newPosts) {
-      newPosts.remove();
-    }
+    // // Remove the element with the class "feed-follows-module"
+    // const addtoFeed = document.querySelector(".feed-follows-module");
+    // if (addtoFeed) {
+    //   addtoFeed.remove();
+    // }
 
-    // Remote the footer part
-    const footer = document.querySelector(".scaffold-layout__aside");
-    if (footer) {
-      footer.remove();
-    }
+    // // Remove the news section
+    // const newsElement = document.getElementById("feed-news-module");
+    // if (newsElement) {
+    //   newsElement.remove();
+    // }
 
-    // Remove Try Premium Button in feed on the left side of profile section
-    const tryFeedPremium = document.querySelector(
-      ".app-aware-link.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left"
-    );
-    if (tryFeedPremium) {
-      tryFeedPremium.remove();
-    }
+    // // Remove new posts button
+    // const newPosts = document.querySelector(".feed-new-update-pill");
+    // if (newPosts) {
+    //   newPosts.remove();
+    // }
+
+    // // Remote the footer part
+    // const footer = document.querySelector(".scaffold-layout__aside");
+    // if (footer) {
+    //   footer.remove();
+    // }
+
+    // // Remove Try Premium Button in feed on the left side of profile section
+    // const tryFeedPremium = document.querySelector(
+    //   ".app-aware-link.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left"
+    // );
+    // if (tryFeedPremium) {
+    //   tryFeedPremium.remove();
+    // }
   }
   // Remove elements inside "mynetwork"
   else if (
     window.location.href.startsWith("https://www.linkedin.com/mynetwork/grow")
   ) {
+    // Remove notifications tag separatly
+    const navElement = document.querySelector("nav.en2g8a0");
+    const liElements = navElement.querySelectorAll("li");
+
+    if (liElements.length >= 5) {
+      liElements[4].remove(); // Remove the fifth element (index 4)
+    }
+
     // Target the main container with class "cnuthtao" and data-view-name="cohorts-list"
     const mainContainer = document.querySelector(
       ".cnuthtao[data-view-name='cohorts-list']"
