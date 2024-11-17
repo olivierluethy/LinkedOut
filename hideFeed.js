@@ -46,13 +46,14 @@ function removeElements() {
 
     // Select field view filter
     const filterView = document.querySelector(".feed-sort-toggle-dsa__wrapper");
-    if (filterView){
+    if (filterView) {
       filterView.remove();
     }
-
     // See new posts button / If user doesn't folow anyone
-    const newPostsButton = document.querySelector(".artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal");
-    if(newPostsButton){
+    const newPostsButton = document.querySelector(
+      ".artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal"
+    );
+    if (newPostsButton) {
       newPostsButton.remove();
     }
 
@@ -100,6 +101,22 @@ function removeElements() {
   else if (
     window.location.href.startsWith("https://www.linkedin.com/mynetwork/grow")
   ) {
+    // Target the main container with class "cnuthtao" and data-view-name="cohorts-list"
+    const mainContainer = document.querySelector(
+      ".cnuthtao[data-view-name='cohorts-list']"
+    );
+
+    // Find all section elements within the main container
+    const sectionsToRemove = mainContainer.querySelectorAll("section");
+
+    // Iterate through each section and remove it, except for sections within the "invitation-preview" container
+    sectionsToRemove.forEach((section) => {
+      // Check if the section is inside the "invitation-preview" container
+      if (!section.closest(".cnuthtao[data-view-name='invitation-preview']")) {
+        section.remove();
+      }
+    });
+
     // Remove related connection to just accepted connection
     const relatedConnect = document.querySelector(
       "ul.artdeco-card.mb4.overflow-hidden"
@@ -117,8 +134,8 @@ function removeElements() {
     }
 
     // Remove suggested people after connecting with someone
-    const connSomeone = document.querySelector('.mn-suggester.artdeco-card');
-    if(connSomeone){
+    const connSomeone = document.querySelector(".mn-suggester.artdeco-card");
+    if (connSomeone) {
       connSomeone.remove();
     }
 
@@ -154,8 +171,10 @@ function removeElements() {
       }
     }
     // Remove Recommendations for Courses
-    const courseElement = document.querySelector('section.pv-course-recommendations');
-    if(courseElement){
+    const courseElement = document.querySelector(
+      "section.pv-course-recommendations"
+    );
+    if (courseElement) {
       courseElement.remove();
     }
   } else if (window.location.href.includes("linkedin.com/groups/")) {
