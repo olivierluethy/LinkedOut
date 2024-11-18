@@ -3,13 +3,6 @@
   "name": "LinkedIn-Feed Cleaner",
   "version": "1.0.4",
   "description": "A Chrome extension to remove distracting elements inside LinkedIn for a cleaner experience.",
-  "content_scripts": [
-    {
-      "matches": ["https://www.linkedin.com/*"],
-      "js": ["hideFeed.js"],
-      "run_at": "document_idle"
-    }
-  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -18,9 +11,18 @@
       "128": "logo.png"
     }
   },
-  "icons": {
-    "16": "logo.png",
-    "48": "logo.png",
-    "128": "logo.png"
-  }
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": [
+        "main.js",
+        "scripts/autoclick.js",
+        "scripts/myNetwork.js",
+        "scripts/profile.js",
+        "scripts/startpoint.js",
+        "scripts/toggle.js"
+      ]
+    }
+  ],
+  "permissions": ["storage"]
 }

@@ -15,12 +15,16 @@
 }
 
 body {
-  width: 250px;
+  width: 360px;
   background-color: black;
   color: white;
 }
 
-h1 {
+h2 {
+  margin-top: 2rem;
+}
+
+h1, h2 {
   text-align: center;
 }
 
@@ -36,6 +40,7 @@ span {
   gap: var(--label-spacing);
   font-size: var(--font-size);
   color: var(--font-color);
+  justify-content: center;
 }
 
 .switch input {
@@ -105,4 +110,11 @@ input:checked:focus + .slider {
 
 .slider.round:before {
   border-radius: 50%;
+}
+.logo {
+  width: 100px;
+  height: 115px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
