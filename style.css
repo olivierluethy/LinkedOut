@@ -118,3 +118,22 @@ input:checked:focus + .slider {
   margin-left: auto;
   margin-right: auto;
 }
+#goToFAQ {
+  background-color: black;
+  border: 1px solid white;
+  color: white;
+  padding: 12px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  font-size: 0.9rem;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+#goToFAQ:hover {
+  background-color: white;
+  color: black;
+}

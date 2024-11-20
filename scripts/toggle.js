@@ -64,81 +64,123 @@ function toggleMainFeed(displayState) {
 
 // Toggle function to choose between different functionalities
 function toggleFunctionality(isToggleActive) {
-  if (isToggleActive) {
-    toggleMainFeed("block");
-    togglePostsWithHeader("none");
-  } else {
-    toggleMainFeed("none");
-    togglePostsWithHeader("block");
+  if (window.location.href.includes("linkedin.com/feed/")) {
+    const promoAd = document.querySelector(".update-components-promo");
+    if (promoAd) {
+      promoAd.style.display = "none";
+    }
+
+    // Falls der Benutzer Inhalte sehen möchte, aber sie schon vorher gesehen hat
+    if (isToggleActive && contentAlreadyThere == 1) {
+      const contentContainer = document.querySelector(".relative");
+      if (contentContainer) {
+        contentContainer.style.visibility = "visible";
+      }
+    }
+    // Falls der Benutzer Inhalte nicht sehen möchte, aber sie bereits gesehen hat
+    else if (!isToggleActive && contentAlreadyThere == 1) {
+      const contentContainer = document.querySelector(".relative");
+      if (contentContainer) {
+        contentContainer.style.visibility = "hidden";
+      }
+    }
+    // Falls der Benutzer die Inhalte nicht gesehen hat, und sie noch nicht gesehen hat
+    else if (!isToggleActive && contentAlreadyThere == 0) {
+      const contentContainer = document.querySelector(".relative");
+      if (contentContainer) {
+        contentContainer.style.visibility = "hidden";
+      }
+    } else if (isToggleActive && contentAlreadyThere == 0) {
+      const contentContainer = document.querySelector(".relative");
+      if (contentContainer) {
+        contentContainer.style.visibility = "visible";
+      }
+      togglePostsWithHeader();
+    }
   }
 }
+let alertDisplay = 0;
+function togglePostsWithHeader() {
+  chrome.storage.local.get(["toggleState"], (res) => {
+    const isToggleActive = res.toggleState ?? false;
+    if (isToggleActive) {
+      const contentContainer = document.querySelector(".relative");
 
-function togglePostsWithHeader(display) {
-  if (display === "block") {
-    const contentContainer = document.querySelector(".relative"); // Ersetzen Sie dies durch den spezifischen Selektor von LinkedIn
+      if (alertDisplay == 0) {
+        alert(
+          "Experience it live as we showcase our ability to filter out irrelevant content while preserving posts created by the people you follow!"
+        );
+        alertDisplay++;
+      }
 
-    // Create a MutationObserver instance
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        // Check for added nodes
-        if (mutation.addedNodes.length > 0) {
-          const addedNodes = Array.from(mutation.addedNodes);
-          addedNodes.forEach((node) => {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              const relativeElements = node.querySelectorAll(
-                "[data-view-name='feed-full-update']"
-              );
-              relativeElements.forEach((relativeElement) => {
-                const updateHeader = relativeElement.querySelector(
-                  ".update-components-header__text-wrapper"
-                );
-                if (updateHeader) {
-                  relativeElement.remove();
+      // Set a timeout of 3 seconds before starting to block content
+      setTimeout(() => {
+        // Create a MutationObserver instance
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            // Check for added nodes
+            if (mutation.addedNodes.length > 0) {
+              const addedNodes = Array.from(mutation.addedNodes);
+              addedNodes.forEach((node) => {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                  const relativeElements = node.querySelectorAll(
+                    "[data-view-name='feed-full-update']"
+                  );
+                  relativeElements.forEach((relativeElement) => {
+                    const updateHeader = relativeElement.querySelector(
+                      ".update-components-header__text-wrapper"
+                    );
+                    if (updateHeader) {
+                      relativeElement.remove();
+                    }
+                  });
                 }
               });
             }
           });
+        });
+
+        // Configure the observer to watch for changes in child nodes
+        const config = { childList: true, subtree: true };
+
+        // Observe the content container for mutations
+        if (contentContainer) {
+          observer.observe(contentContainer, config);
         }
-      });
-    });
 
-    // Configure the observer to watch for changes in child nodes
-    const config = { childList: true, subtree: true };
+        // Run the script initially for existing content
+        const relativeElements = document.querySelectorAll(
+          "[data-view-name='feed-full-update']"
+        );
+        relativeElements.forEach((relativeElement) => {
+          const updateHeader = relativeElement.querySelector(
+            ".update-components-header__text-wrapper"
+          );
+          if (updateHeader) {
+            relativeElement.remove();
+          }
+        });
 
-    // Observe the content container for mutations
-    if (contentContainer) {
-      observer.observe(contentContainer, config);
+        // "See new posts" button removal
+        const newPosts = document.querySelector(
+          "button.artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal"
+        );
+        if (newPosts) {
+          newPosts.style.display = "none";
+        }
+      }, 1000); // 3000 milliseconds = 3 seconds
     }
-
-    // Run the script initially for existing content
-    const relativeElements = document.querySelectorAll(
-      "[data-view-name='feed-full-update']"
-    );
-    relativeElements.forEach((relativeElement) => {
-      const updateHeader = relativeElement.querySelector(
-        ".update-components-header__text-wrapper"
-      );
-      if (updateHeader) {
-        relativeElement.remove();
-      }
-    });
-
-    // "See new posts" button removal
-    const newPosts = document.querySelector(
-      "button.artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal"
-    );
-    if (newPosts) {
-      newPosts.style.display = "none";
-    }
-
-    autoClick();
-  }
+  });
 }
 
+let contentAlreadyThere = 0;
 // Listen for changes in toggle state from chrome.storage
 chrome.storage.local.get(["toggleState"], (res) => {
   const isToggleActive = res.toggleState ?? false;
   toggleFunctionality(isToggleActive);
+  if (isToggleActive) {
+    contentAlreadyThere = 1;
+  }
 });
 
 // Observe for future changes in toggle state

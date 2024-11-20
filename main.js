@@ -11,7 +11,11 @@ function removeElements() {
 
   // Remove elements inside the feed
   if (window.location.href.includes("linkedin.com/feed/")) {
-    togglePostsWithHeader("block");
+    const promoAd = document.querySelector(".update-components-promo");
+    if(promoAd){
+      promoAd.style.display="none";
+    }
+    togglePostsWithHeader();
   }
   // Remove elements inside "mynetwork"
   else if (
