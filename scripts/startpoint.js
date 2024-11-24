@@ -11,22 +11,18 @@ function startPoints() {
     notifyClock.style.visibility = "hidden";
   }
 
-  // Remove try premium on sidenav
-  const ankerTitle = document.querySelector(
-    "h3.t-12.t-black--light.t-normal.pb1"
+  /* Remove try premium on sidenav */
+  // Select the parent div
+  const feedIdentityModule = document.querySelector(
+    ".feed-identity-module.artdeco-card.overflow-hidden.mb2"
   );
-  if (ankerTitle) {
-    ankerTitle.style.display = "none";
+  if (feedIdentityModule) {
+    // Remove the 3rd element (a div)
+    const thridElement = feedIdentityModule.children[2];
+    if (thridElement) {
+      thridElement.remove();
+    }
   }
-
-  const anchorElements = document.querySelectorAll(
-    "a.NPeUJbjVPXndTVsyUknZWJrJZHpYopPJegGc.link-without-visited-state.feed-identity-module__anchored-widget.feed-identity-module__anchored-widget--premium-upsell.t-12.t-black.t-bold.link-without-hover-state.text-align-left.premium-upsell-link--long"
-  );
-
-  // Loop through the NodeList and remove each element
-  anchorElements.forEach((anchor) => {
-    anchor.remove();
-  });
 
   // Remove Try Premium for CHF0 on navigation
   const tryNavPremium = document.querySelector(".premium-upsell-link");
