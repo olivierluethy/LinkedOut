@@ -52,6 +52,115 @@ if (tryFeedPremium) {
   tryFeedPremium.remove();
 }
 
+/* Time management */
+let stopwatchInterval;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+let isStopwatchRunning = false;
+
+function updateStopwatch() {
+  seconds++;
+  if (seconds >= 60) {
+    seconds = 0;
+    minutes++;
+  }
+  if (minutes >= 60) {
+    minutes = 0;
+    hours++;
+  }
+
+  // Zeit in der Konsole ausgeben
+  const timeString = `${String(hours).padStart(2, "0")}:${String(
+    minutes
+  ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  console.log(timeString);
+
+  // Zeit im Chrome-Storage speichern
+  storeWastedTime();
+}
+
+function timeStringToSeconds(timeString) {
+  const [h, m, s] = timeString.split(":").map(Number);
+  return h * 3600 + m * 60 + s;
+}
+
+function secondsToTimeString(totalSeconds) {
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(
+    s
+  ).padStart(2, "0")}`;
+}
+
+function initializeStopwatch() {
+  const today = new Date().toISOString().split("T")[0];
+  chrome.storage.local.get(["wastedTime"], (res) => {
+    const wastedTime = res.wastedTime || {};
+    const savedTime = wastedTime[today] || "00:00:00";
+    const totalSeconds = timeStringToSeconds(savedTime);
+
+    hours = Math.floor(totalSeconds / 3600);
+    minutes = Math.floor((totalSeconds % 3600) / 60);
+    seconds = totalSeconds % 60;
+
+    lastLoggedSeconds = totalSeconds; // Initialisiere die geloggte Zeit
+    console.log(`Stopwatch initialisiert mit: ${savedTime}`);
+  });
+}
+
+let lastLoggedSeconds = 0; // Speichert die letzte geloggte Zeit (für Differenzen)
+
+function storeWastedTime() {
+  if (window.location.href.includes("linkedin.com/feed/")) {
+    const today = new Date().toISOString().split("T")[0]; // Nur das Datum (YYYY-MM-DD)
+    const currentTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
+
+    // Differenz zur letzten Speicherung berechnen
+    const deltaTimeInSeconds = currentTimeInSeconds - lastLoggedSeconds;
+
+    // Bestehende Daten abrufen und aktualisieren
+    chrome.storage.local.get(["wastedTime"], (res) => {
+      const wastedTime = res.wastedTime || {};
+      const previousTime = wastedTime[today]
+        ? timeStringToSeconds(wastedTime[today])
+        : 0;
+
+      // Addiere nur die neue Zeitdifferenz
+      const newTimeInSeconds = previousTime + deltaTimeInSeconds;
+      wastedTime[today] = secondsToTimeString(newTimeInSeconds);
+
+      // Speichern und `lastLoggedSeconds` aktualisieren
+      chrome.storage.local.set({ wastedTime }, () => {
+        console.log("Aktualisierte wastedTime:", wastedTime);
+        lastLoggedSeconds = currentTimeInSeconds; // Aktualisiere die letzte geloggte Zeit
+      });
+    });
+  } else {
+    stopStopwatch();
+  }
+}
+
+function startStopwatch() {
+  if (!isStopwatchRunning) {
+    isStopwatchRunning = true;
+    stopwatchInterval = setInterval(updateStopwatch, 1000);
+    console.log("Stopwatch gestartet");
+  }
+}
+
+function stopStopwatch() {
+  if (isStopwatchRunning) {
+    clearInterval(stopwatchInterval);
+    isStopwatchRunning = false;
+
+    // Letztes Update, bevor die Stoppuhr gestoppt wird
+    storeWastedTime();
+    console.log("Stopwatch gestoppt");
+  }
+}
+
 // Function to toggle the visibility of the main feed
 function toggleMainFeed(displayState) {
   const mainElement = document.querySelector(
@@ -75,6 +184,8 @@ function toggleFunctionality(isToggleActive) {
       const contentContainer = document.querySelector(".relative");
       if (contentContainer) {
         contentContainer.style.visibility = "visible";
+        startStopwatch();
+        initializeStopwatch();
       }
     }
     // Falls der Benutzer Inhalte nicht sehen möchte, aber sie bereits gesehen hat
@@ -82,6 +193,8 @@ function toggleFunctionality(isToggleActive) {
       const contentContainer = document.querySelector(".relative");
       if (contentContainer) {
         contentContainer.style.visibility = "hidden";
+        stopStopwatch();
+        initializeStopwatch();
       }
     }
     // Falls der Benutzer die Inhalte nicht gesehen hat, und sie noch nicht gesehen hat
@@ -89,14 +202,21 @@ function toggleFunctionality(isToggleActive) {
       const contentContainer = document.querySelector(".relative");
       if (contentContainer) {
         contentContainer.style.visibility = "hidden";
+        stopStopwatch();
+        initializeStopwatch();
       }
     } else if (isToggleActive && contentAlreadyThere == 0) {
       const contentContainer = document.querySelector(".relative");
       if (contentContainer) {
         contentContainer.style.visibility = "visible";
+        startStopwatch();
+        initializeStopwatch();
       }
       togglePostsWithHeader();
     }
+  } else {
+    stopStopwatch();
+    initializeStopwatch();
   }
 }
 let alertDisplay = 0;
