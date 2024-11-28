@@ -35,10 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateTodayTime() {
     chrome.storage.local.get(["wastedTime"], (res) => {
       const wastedTime = res.wastedTime || {};
-      const todayTime = wastedTime[today] || "00:00:00"; // Fallback-Wert, wenn nichts für heute vorhanden ist
-      document.getElementById(
-        "timeOfConsumption"
-      ).innerHTML = `Time spent today: ${todayTime}`;
+      const todayTime = wastedTime[today] || "No time spent today"; // Fallback-Wert, wenn nichts für heute vorhanden ist
+      if (todayTime == "No time spent today") {
+        document.getElementById("timeOfConsumption").innerHTML = `${todayTime}`;
+      } else {
+        document.getElementById(
+          "timeOfConsumption"
+        ).innerHTML = `Time spent today: ${todayTime}`;
+      }
     });
   }
 
@@ -46,9 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTodayTime(); // Initialer Aufruf
   setInterval(updateTodayTime, 1000);
 });
-document.getElementById("timeOfConsumption").addEventListener("click", function(){
-  chrome.tabs.create({ url: chrome.runtime.getURL("/pages/timetable.html") });
-})
-document.getElementById("goToFAQ").addEventListener("click", function(){
+document
+  .getElementById("timeOfConsumption")
+  .addEventListener("click", function () {
+    chrome.tabs.create({ url: chrome.runtime.getURL("/pages/timetable.html") });
+  });
+document.getElementById("goToFAQ").addEventListener("click", function () {
   chrome.tabs.create({ url: chrome.runtime.getURL("/pages/FAQ.html") });
-})
+});
