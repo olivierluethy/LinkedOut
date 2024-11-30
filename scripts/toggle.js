@@ -227,9 +227,6 @@ function togglePostsWithHeader() {
       const contentContainer = document.querySelector(".relative");
 
       if (alertDisplay == 0) {
-        alert(
-          "Experience it live as we showcase our ability to filter out irrelevant content while preserving posts created by the people you follow!"
-        );
         alertDisplay++;
       }
 
