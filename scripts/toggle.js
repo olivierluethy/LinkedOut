@@ -320,18 +320,19 @@ function togglePostsWithHeader() {
 // TODO: Ein neues setInterval überprüfung machen "https://www.linkedin.com/company/thehackernews/posts/?feedView=all"
 // TODO: Regex dazu aufbauen und dann genau den gleichen Aufbau wie hier unten
 
-// Set an interval to check if the target element exists every second
-const companyPost = setInterval(() => {
-  if (/\/company\/.*?\/posts\//.test(window.location.pathname)) {
-    const targetNode = document.querySelector(".feed-container-theme");
+// Set an interval to check for various conditions every second
+const intervalId = setInterval(() => {
+  const pathname = window.location.pathname;
 
+  // Check for company posts
+  if (/\/company\/.*?\/posts\//.test(pathname)) {
+    const targetNode = document.querySelector(".feed-container-theme");
     if (targetNode) {
       console.log("Company part posts found");
-
       if (!isStopwatchRunning) {
         startStopwatch();
       }
-      // Remove "Pages people also viewed" -> All recommendations showing on the right side of the page
+      // Remove "Pages people also viewed"
       const ppav = document.querySelector(
         ".scaffold-layout__aside[aria-label='Advertisement']"
       );
@@ -340,8 +341,9 @@ const companyPost = setInterval(() => {
       }
     }
   }
-  if (/\/company\//.test(window.location.pathname)) {
-    // Remove "Pages people also viewed" -> All recommendations showing on the right side of the page
+
+  // Check for company page
+  if (/\/company\//.test(pathname)) {
     const ppav = document.querySelector(
       ".scaffold-layout__aside[aria-label='Advertisement']"
     );
@@ -349,33 +351,23 @@ const companyPost = setInterval(() => {
       ppav.style.display = "none";
     }
   }
-}, 1000); // Check every 1 second
 
-// Set an interval to check if the target element exists every second
-const intervalId = setInterval(() => {
-  if (
-    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
-      window.location.pathname
-    )
-  ) {
+  // Check for recent activity
+  if (/^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(pathname)) {
     const targetNode = document.querySelector(".scaffold-layout__sidebar");
-
     if (targetNode) {
       console.log("Target node found");
-
       if (!isStopwatchRunning) {
         startStopwatch();
       }
     }
   }
-}, 1000); // Check every 1 second
 
-const searchInterval = setInterval(() => {
-  if (/^\/search\/results\/all/.test(window.location.pathname)) {
+  // Check for search results
+  if (/^\/search\/results\/all/.test(pathname)) {
     const targetNode = document.querySelector(
       ".scaffold-layout__aside[aria-label='Search suggestions']"
     );
-
     if (targetNode) {
       targetNode.style.display = "none";
     }
