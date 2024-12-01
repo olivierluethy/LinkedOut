@@ -117,7 +117,8 @@ function storeWastedTime() {
     window.location.href.includes("linkedin.com/feed/") ||
     /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
       window.location.pathname
-    )
+    ) ||
+    /\/company\/.*?\/posts\//.test(window.location.pathname)
   ) {
     const today = new Date().toISOString().split("T")[0]; // Nur das Datum (YYYY-MM-DD)
     const currentTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
@@ -175,7 +176,7 @@ function toggleMainFeed(displayState) {
     mainElement.style.display = displayState;
   }
 }
-
+// TODO: Bei Implementierung einer URL muss diese jeweils ab 4 unterschiedlichen Orten hinzugefügt werden
 // Toggle function to choose between different functionalities
 function toggleFunctionality(isToggleActive) {
   // Ob Benutzer im Activity Flow eines Benutzers ist
@@ -187,11 +188,19 @@ function toggleFunctionality(isToggleActive) {
   ) {
     window.location.href = "https://linkedin.com";
   }
+  // Ob Benutzer im Post Flow einer Firma oder Community ist
+  if (
+    /\/company\/.*?\/posts\//.test(window.location.pathname) &&
+    !isToggleActive
+  ) {
+    window.location.href = "https://linkedin.com";
+  }
   if (
     window.location.href.includes("linkedin.com/feed/") ||
     /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
       window.location.pathname
-    )
+    ) ||
+    /\/company\/.*?\/posts\//.test(window.location.pathname)
   ) {
     const promoAd = document.querySelector(".update-components-promo");
     if (promoAd) {
@@ -310,6 +319,28 @@ function togglePostsWithHeader() {
 }
 // TODO: Ein neues setInterval überprüfung machen "https://www.linkedin.com/company/thehackernews/posts/?feedView=all"
 // TODO: Regex dazu aufbauen und dann genau den gleichen Aufbau wie hier unten
+
+// Set an interval to check if the target element exists every second
+const companyPost = setInterval(() => {
+  if (/\/company\/.*?\/posts\//.test(window.location.pathname)) {
+    const targetNode = document.querySelector(".feed-container-theme");
+
+    if (targetNode) {
+      console.log("Company part posts found");
+
+      if (!isStopwatchRunning) {
+        startStopwatch();
+      }
+      // Remove "Pages people also viewed" -> All recommendations showing on the right side of the page
+      const ppav = document.querySelector(
+        ".scaffold-layout__aside[aria-label='Advertisement']"
+      );
+      if (ppav) {
+        ppav.style.display = "none";
+      }
+    }
+  }
+}, 1000); // Check every 1 second
 
 // Set an interval to check if the target element exists every second
 const intervalId = setInterval(() => {
