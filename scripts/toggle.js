@@ -308,16 +308,24 @@ function togglePostsWithHeader() {
     }
   });
 }
+// TODO: Ein neues setInterval überprüfung machen "https://www.linkedin.com/company/thehackernews/posts/?feedView=all"
+// TODO: Regex dazu aufbauen und dann genau den gleichen Aufbau wie hier unten
 
 // Set an interval to check if the target element exists every second
 const intervalId = setInterval(() => {
-  const targetNode = document.querySelector(".scaffold-layout__sidebar");
+  if (
+    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
+      window.location.pathname
+    )
+  ) {
+    const targetNode = document.querySelector(".scaffold-layout__sidebar");
 
-  if (targetNode) {
-    console.log("Target node found");
+    if (targetNode) {
+      console.log("Target node found");
 
-    if (!isStopwatchRunning) {
-      startStopwatch();
+      if (!isStopwatchRunning) {
+        startStopwatch();
+      }
     }
   }
 }, 1000); // Check every 1 second
