@@ -340,6 +340,15 @@ const companyPost = setInterval(() => {
       }
     }
   }
+  if (/\/company\//.test(window.location.pathname)) {
+    // Remove "Pages people also viewed" -> All recommendations showing on the right side of the page
+    const ppav = document.querySelector(
+      ".scaffold-layout__aside[aria-label='Advertisement']"
+    );
+    if (ppav) {
+      ppav.style.display = "none";
+    }
+  }
 }, 1000); // Check every 1 second
 
 // Set an interval to check if the target element exists every second
@@ -357,6 +366,18 @@ const intervalId = setInterval(() => {
       if (!isStopwatchRunning) {
         startStopwatch();
       }
+    }
+  }
+}, 1000); // Check every 1 second
+
+const searchInterval = setInterval(() => {
+  if (/^\/search\/results\/all/.test(window.location.pathname)) {
+    const targetNode = document.querySelector(
+      ".scaffold-layout__aside[aria-label='Search suggestions']"
+    );
+
+    if (targetNode) {
+      targetNode.style.display = "none";
     }
   }
 }, 1000); // Check every 1 second
