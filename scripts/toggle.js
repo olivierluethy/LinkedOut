@@ -113,7 +113,12 @@ function initializeStopwatch() {
 let lastLoggedSeconds = 0; // Speichert die letzte geloggte Zeit (für Differenzen)
 
 function storeWastedTime() {
-  if (window.location.href.includes("linkedin.com/feed/")) {
+  if (
+    window.location.href.includes("linkedin.com/feed/") ||
+    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
+      window.location.pathname
+    )
+  ) {
     const today = new Date().toISOString().split("T")[0]; // Nur das Datum (YYYY-MM-DD)
     const currentTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
 
@@ -173,7 +178,21 @@ function toggleMainFeed(displayState) {
 
 // Toggle function to choose between different functionalities
 function toggleFunctionality(isToggleActive) {
-  if (window.location.href.includes("linkedin.com/feed/")) {
+  // Ob Benutzer im Activity Flow eines Benutzers ist
+  if (
+    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
+      window.location.pathname
+    ) &&
+    !isToggleActive
+  ) {
+    window.location.href = "https://linkedin.com";
+  }
+  if (
+    window.location.href.includes("linkedin.com/feed/") ||
+    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
+      window.location.pathname
+    )
+  ) {
     const promoAd = document.querySelector(".update-components-promo");
     if (promoAd) {
       promoAd.style.display = "none";
@@ -289,6 +308,19 @@ function togglePostsWithHeader() {
     }
   });
 }
+
+// Set an interval to check if the target element exists every second
+const intervalId = setInterval(() => {
+  const targetNode = document.querySelector(".scaffold-layout__sidebar");
+
+  if (targetNode) {
+    console.log("Target node found");
+
+    if (!isStopwatchRunning) {
+      startStopwatch();
+    }
+  }
+}, 1000); // Check every 1 second
 
 let contentAlreadyThere = 0;
 // Listen for changes in toggle state from chrome.storage
