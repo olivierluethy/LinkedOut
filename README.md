@@ -71,6 +71,19 @@ After installation, the LinkedIn Feed Blocker will automatically remove the spec
 
 If you would like to contribute to this project, feel free to fork the repository and submit a pull request.
 
+### Used Links
+
+1. Custom Scrollbar Example
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_scrollbar
+<br>
+
+2. CSS Object Overflow Example
+https://www.w3schools.com/css/tryit.asp?filename=trycss_overflow_intro
+<br>
+
+3. Exmple Prototype Creation for Distraction Table Overview
+https://codepen.io/Olibaba02/pen/raBOGwx
+
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.

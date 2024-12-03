@@ -190,7 +190,7 @@ function performAnalysis() {
       <p><strong>Average Time Wasted Per Day:</strong> ${averageFormatted}</p>
       <p><strong>Estimated Wasted Time Per Month:</strong> ${monthlyFormatted}</p>
       <p><strong>Estimated Wasted Time Per Year:</strong> ${yearlyFormatted}</p>
-      <p><u>Imagine what you could do with that time</u></p> 😲
+      <p><u>Imagine what you could do with that time</u>😲</p>
     `;
   });
 }
