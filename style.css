@@ -15,7 +15,7 @@
 }
 
 body {
-  width: 360px;
+  width: 350px;
   background-color: black;
   color: white;
 }
@@ -118,11 +118,16 @@ input:checked:focus + .slider {
   margin-left: auto;
   margin-right: auto;
 }
+#timeOfConsumption{
+  padding: 12px 28px;
+}
+#goToFAQ{
+  padding: 8px 12px;
+}
 #goToFAQ, #timeOfConsumption {
   background-color: black;
   border: 1px solid white;
   color: white;
-  padding: 12px 28px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -131,6 +136,11 @@ input:checked:focus + .slider {
   font-size: 0.9rem;
   transition-duration: 0.4s;
   cursor: pointer;
+}
+
+#goToFAQ img{
+  width: 22px; height: 22px;
+  vertical-align: middle;
 }
 
 #goToFAQ:hover, #timeOfConsumption:hover {
