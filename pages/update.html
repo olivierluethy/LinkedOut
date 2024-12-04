@@ -34,12 +34,7 @@
                 <img src="assets/img/logoResize.png" alt="Global" />
                 <p>X-Feed Cleaner</p>
               </a>
-              <button
-                onclick="window.location.href='https://chromewebstore.google.com/detail/x-feed-cleaner/nejdcgfebfamlgpggncmbpkcnefaiemk/reviews'"
-                class="header--cta cta"
-              >
-                Review Us
-              </button>
+              <button class="header--cta cta">Review Us</button>
               <div class="header--nav-toggle">
                 <span></span>
               </div>
@@ -60,7 +55,7 @@
                       <div class="introName">1.0.9</div>
                       is out!
                     </h1>
-                    <button onclick="window.location.href='https://linkedin.com'">
+                    <button id="tryItOut">
                       Try it out NOW!
                       <span class="btn-background"></span>
                     </button>
@@ -86,7 +81,9 @@
                     <a>
                       <h3>URL Redirect if you consume on profile</h3>
                       <p>
-                        If you are consuming content within someone else's profile and you have switched off the apperence of the feed, you will not be able to access that part.
+                        If you are consuming content within someone else's
+                        profile and you have switched off the apperence of the
+                        feed, you will not be able to access that part.
                       </p>
                     </a>
                   </div>
@@ -95,17 +92,24 @@
               <li class="l-section section">
                 <div class="hire">
                   <h2>Are we missing out a feature?</h2>
-                  <button style="color: black;" onclick="window.location.href='https://forms.gle/VN6HS4A8UJtefT3u8'">Fill out this form</button>
-                  <h3>Just six brief questions are all we need to begin crafting your personalized feature.</h3>
+                  <button id="formLink" style="color: black">
+                    Fill out this form
+                  </button>
+                  <h3>
+                    Just six brief questions are all we need to begin crafting
+                    your personalized feature.
+                  </h3>
                   <h2>How to contribute to our journey?</h2>
                   <!-- checkout formspree.io for easy form setup -->
                   <a
                     href="https://chromewebstore.google.com/detail/linkedin-feed-cleaner/filpecgdlifajnphchanobkeealliaci/reviews"
                     ><button style="color: black">Write us a review</button></a
                   >
-                  <h2 style="margin-top: 2rem;">How to support us financialy?</h2>
+                  <h2 style="margin-top: 2rem">
+                    How to support us financialy?
+                  </h2>
                   <div
-                    style="text-align: center;"
+                    style="text-align: center"
                     title="Do you want to support my project?"
                   >
                     <a
@@ -178,8 +182,6 @@
         <li>Thank You!</li>
       </ul>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script>
       window.jQuery ||
         document.write(
@@ -187,5 +189,6 @@
         );
     </script>
     <script src="assets/js/functions-min.js"></script>
+    <script src="update.js"></script>
   </body>
 </html>
