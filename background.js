@@ -8,6 +8,4 @@ chrome.runtime.onInstalled.addListener((details) => {
   }
 });
 // Set a URL to open when the extension is uninstalled
-chrome.runtime.setUninstallURL(
-  "https://your-feedback-page.com/uninstall-survey"
-);
+chrome.runtime.setUninstallURL("https://forms.gle/DSq58Lb9vBMjq6pT9");
