@@ -1,26 +1,22 @@
 function mynetwork() {
   /* Remove the LinkedIn Premium Add to Grow Network Smarter and the entire network suggestions with suggested people. */
-  const navElement = document.querySelector("main");
+  // Get the container element
+  const container = document.querySelector("[data-view-name='cohorts-list']");
 
-  // Check if navElement is found
-  if (navElement) {
-    // Remove the 5th element (a div)
-    const fifthElement = navElement.children[4];
-    if (fifthElement) {
-      fifthElement.remove();
-    }
+  // Get the div element inside the container
+  const divElement = container.querySelector("div");
 
-    // Remove the 6th element (a section with class 'artdeco-card')
-    const sixthElement = navElement.children[5]; // Index 5 now refers to the 6th element after removing the 5th
+  if (divElement) {
+    // Get all child elements of the div element
+    const childElements = divElement.children;
 
-    if (
-      sixthElement &&
-      sixthElement.tagName === "SECTION" &&
-      sixthElement.classList.contains("artdeco-card")
-    ) {
-      sixthElement.remove();
-    }
-  } else {
-    console.error("navElement not found");
+    // Convert the HTMLCollection to an array
+    Array.prototype.slice.call(childElements).forEach((child) => {
+      // Check if the child element is not the one we want to keep
+      if (child.getAttribute("data-view-name") !== "invitation-preview") {
+        // Remove the child element
+        child.remove();
+      }
+    });
   }
 }

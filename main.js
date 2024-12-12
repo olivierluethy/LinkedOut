@@ -22,6 +22,37 @@ function removeElements() {
   // Überprüfung auf "Mynetwork"
   else if (window.location.href.includes("linkedin.com/mynetwork/")) {
     mynetwork();
+
+    /* Removing Nav Elements */
+
+    // Get the nav element with the class "en2g8a0"
+    const navElement = document.querySelector(".en2g8a0");
+
+    // Home Red Icon for Notification --
+    // Get the first li element
+    const firstLi = navElement.querySelector("ul li:nth-child(1)");
+
+    // Get the nested span element within the first li
+    const targetSpan = firstLi.querySelector("a span span");
+
+    // Do something with the target span, for example, change its text content
+    targetSpan.style.visibility = "hidden";
+
+    // Notification clock --
+    // Get the 5th li element within the ul element inside the nav element
+    const fifthLi = navElement.querySelector("ul li:nth-child(5)");
+
+    // Set the visibility style of the 5th li element to "hidden"
+    fifthLi.style.visibility = "hidden";
+
+    // Try premium
+    // Get the element with the data-view-name attribute
+    const targetElement = document.querySelector(
+      '[data-view-name="premium-nav-upsell-text"]'
+    );
+
+    // Do something with the target element, for example, change its text content
+    targetElement.style.visibility = "hidden";
   }
 
   // Überprüfung auf Profil
