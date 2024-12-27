@@ -684,7 +684,7 @@ body {
 .intro--banner img {
   position: absolute;
   bottom: 21px;
-  right: -12px;
+  right: -80px;
 }
 .intro--banner .introName {
   font-style: italic;

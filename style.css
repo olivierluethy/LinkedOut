@@ -151,3 +151,66 @@ input:checked:focus + .slider {
   background-color: white;
   color: black;
 }
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid white;
+}
+
+.separator:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: 0.25em;
+}
+
+.underButtons {
+  display: flex; /* Use flexbox layout */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  margin-top: 10px; /* Maintain the top margin */
+}
+
+.underButtons a {
+  display: flex; /* Use flexbox for the anchor */
+  justify-content: center; /* Center content inside the anchor */
+  align-items: center; /* Center content vertically */
+  margin: 0 10px; /* Add space between elements */
+  text-decoration: none;
+}
+
+.underButtons a button {
+  width: 150px; /* Set a fixed width for the button */
+  border-radius: 7px;
+  font-weight: bolder;
+  border: none;
+  color: white;
+  padding: 6px 0; /* Adjust padding for vertical centering */
+  background-color: black;
+  border: 1px solid white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition-duration: 0.4s;
+}
+.underButtons a button:hover{
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.coffee-button {
+  width: 150px; /* Set a fixed width for the image */
+  height: 6.5vh; /* Maintain aspect ratio */
+}
