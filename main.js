@@ -2,6 +2,39 @@
 function removeElements() {
   startPoints();
 
+  // Check inside the entire body element if there is an element with the content of "Try 1 month of Premium for CHF0"
+  function checkForPremiumOffer() {
+    // Alle Paragraphen im Dokument durchgehen
+    const allParagraphs = document.querySelectorAll("p");
+
+    for (let i = 0; i < allParagraphs.length; i++) {
+      // Überprüfen, ob der Paragraph den gewünschten Text enthält
+      if (
+        allParagraphs[i].textContent.includes("Try 1 month of Premium for CHF0")
+      ) {
+        // Nächstes div-Element, das diesen Paragraphen enthält, finden
+        const parentDiv = allParagraphs[i].closest("div");
+
+        if (parentDiv) {
+          // Das div-Element entfernen
+          parentDiv.remove();
+          return true; // Angebot gefunden und entfernt
+        }
+      }
+    }
+
+    return false; // Angebot nicht gefunden
+  }
+
+  // Die Funktion aufrufen, um nach dem Angebot zu suchen
+  const hasOffer = checkForPremiumOffer();
+
+  if (hasOffer) {
+    console.log("Premium-Angebot gefunden und entfernt!");
+  } else {
+    console.log("Premium-Angebot nicht gefunden.");
+  }
+
   // Überprüfung auf Notifications
   if (
     window.location.hostname === "www.linkedin.com" &&
