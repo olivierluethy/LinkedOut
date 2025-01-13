@@ -115,7 +115,7 @@ let lastLoggedSeconds = 0; // Speichert die letzte geloggte Zeit (für Differenz
 function storeWastedTime() {
   if (
     window.location.href.includes("linkedin.com/feed/") ||
-    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
+    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/(comments|reactions|all)\/$/.test(
       window.location.pathname
     ) ||
     /\/company\/.*?\/posts\//.test(window.location.pathname)
@@ -183,12 +183,12 @@ function toggleMainFeed(displayState) {
     mainElement.style.display = displayState;
   }
 }
-// TODO: Bei Implementierung einer URL muss diese jeweils ab 4 unterschiedlichen Orten hinzugefügt werden
+// TODO: Bei Implementierung einer URL muss diese jeweils an 3 unterschiedlichen Orten hinzugefügt werden - setinterval weiter unten, togglefunctionality, storeWastedTime (weiter oben)
 // Toggle function to choose between different functionalities
 function toggleFunctionality(isToggleActive) {
   // Ob Benutzer im Activity Flow eines Benutzers ist
   if (
-    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(
+    /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/(comments|reactions|all)\/$/.test(
       window.location.pathname
     ) &&
     !isToggleActive
@@ -328,16 +328,33 @@ function togglePostsWithHeader() {
 // Set an interval to check for various conditions every second
 const intervalId = setInterval(() => {
   const pathname = window.location.pathname;
-
-  // Check for company posts
-  if (/\/company\/.*?\/posts\//.test(pathname)) {
-    const targetNode = document.querySelector(".feed-container-theme");
-    if (targetNode) {
-      console.log("Company part posts found");
-      if (!isStopwatchRunning) {
-        startStopwatch();
+  // Listen for changes in toggle state from chrome.storage
+  chrome.storage.local.get(["toggleState"], (res) => {
+    const isToggleActive = res.toggleState ?? false;
+    // Check for company posts
+    if (/\/company\/.*?\/posts\//.test(pathname) && isToggleActive) {
+      const targetNode = document.querySelector(".feed-container-theme");
+      if (targetNode) {
+        console.log("Company part posts found");
+        if (!isStopwatchRunning) {
+          startStopwatch();
+        }
+        // Remove "Pages people also viewed"
+        const ppav = document.querySelector(
+          ".scaffold-layout__aside[aria-label='Advertisement']"
+        );
+        if (ppav) {
+          ppav.style.display = "none";
+        }
       }
-      // Remove "Pages people also viewed"
+    }
+
+    if (/\/company\/.*?\/posts\//.test(pathname) && !isToggleActive) {
+      window.location.href = "https://linkedin.com";
+    }
+
+    // Check for company page
+    if (/\/company\//.test(pathname)) {
       const ppav = document.querySelector(
         ".scaffold-layout__aside[aria-label='Advertisement']"
       );
@@ -345,38 +362,42 @@ const intervalId = setInterval(() => {
         ppav.style.display = "none";
       }
     }
-  }
 
-  // Check for company page
-  if (/\/company\//.test(pathname)) {
-    const ppav = document.querySelector(
-      ".scaffold-layout__aside[aria-label='Advertisement']"
-    );
-    if (ppav) {
-      ppav.style.display = "none";
-    }
-  }
-
-  // Check for recent activity
-  if (/^\/in\/[a-zA-Z0-9-]+\/recent-activity\/all\/$/.test(pathname)) {
-    const targetNode = document.querySelector(".scaffold-layout__sidebar");
-    if (targetNode) {
-      console.log("Target node found");
-      if (!isStopwatchRunning) {
-        startStopwatch();
+    // Check for recent activity
+    if (
+      /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/(comments|reactions|all)\/$/.test(
+        pathname
+      ) &&
+      isToggleActive
+    ) {
+      const targetNode = document.querySelector(".scaffold-layout__sidebar");
+      if (targetNode) {
+        console.log("Target node found");
+        if (!isStopwatchRunning) {
+          startStopwatch();
+        }
       }
     }
-  }
 
-  // Check for search results
-  if (/^\/search\/results\/all/.test(pathname)) {
-    const targetNode = document.querySelector(
-      ".scaffold-layout__aside[aria-label='Search suggestions']"
-    );
-    if (targetNode) {
-      targetNode.style.display = "none";
+    if (
+      /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/(comments|reactions|all)\/$/.test(
+        pathname
+      ) &&
+      !isToggleActive
+    ) {
+      window.location.href = "https://linkedin.com";
     }
-  }
+
+    // Check for search results
+    if (/^\/search\/results\/all/.test(pathname)) {
+      const targetNode = document.querySelector(
+        ".scaffold-layout__aside[aria-label='Search suggestions']"
+      );
+      if (targetNode) {
+        targetNode.style.display = "none";
+      }
+    }
+  });
 }, 1000); // Check every 1 second
 
 let contentAlreadyThere = 0;
