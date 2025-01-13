@@ -126,25 +126,32 @@ function storeWastedTime() {
     // Differenz zur letzten Speicherung berechnen
     const deltaTimeInSeconds = currentTimeInSeconds - lastLoggedSeconds;
 
-    // Bestehende Daten abrufen und aktualisieren
-    chrome.storage.local.get(["wastedTime"], (res) => {
-      const wastedTime = res.wastedTime || {};
-      const previousTime = wastedTime[today]
-        ? timeStringToSeconds(wastedTime[today])
-        : 0;
+    // Check if the delta time is at least 1 second
+    if (deltaTimeInSeconds >= 1) {
+      // Bestehende Daten abrufen und aktualisieren
+      chrome.storage.local.get(["wastedTime"], (res) => {
+        const wastedTime = res.wastedTime || {};
+        const previousTime = wastedTime[today]
+          ? timeStringToSeconds(wastedTime[today])
+          : 0;
 
-      // Addiere nur die neue Zeitdifferenz
-      const newTimeInSeconds = previousTime + deltaTimeInSeconds;
-      wastedTime[today] = secondsToTimeString(newTimeInSeconds);
+        // Addiere nur die neue Zeitdifferenz
+        const newTimeInSeconds = previousTime + deltaTimeInSeconds;
+        wastedTime[today] = secondsToTimeString(newTimeInSeconds);
 
-      // Speichern und `lastLoggedSeconds` aktualisieren
-      chrome.storage.local.set({ wastedTime }, () => {
-        console.log("Aktualisierte wastedTime:", wastedTime);
-        lastLoggedSeconds = currentTimeInSeconds; // Aktualisiere die letzte geloggte Zeit
+        // Speichern und `lastLoggedSeconds` aktualisieren
+        chrome.storage.local.set({ wastedTime }, () => {
+          console.log("Aktualisierte wastedTime:", wastedTime);
+          lastLoggedSeconds = currentTimeInSeconds; // Aktualisiere die letzte geloggte Zeit
+        });
       });
-    });
+    } else {
+      stopStopwatch();
+    }
   } else {
-    stopStopwatch();
+    console.log(
+      "Time not sufficient to log. Delta time is less than 1 second."
+    );
   }
 }
 
@@ -317,8 +324,6 @@ function togglePostsWithHeader() {
     }
   });
 }
-// TODO: Ein neues setInterval überprüfung machen "https://www.linkedin.com/company/thehackernews/posts/?feedView=all"
-// TODO: Regex dazu aufbauen und dann genau den gleichen Aufbau wie hier unten
 
 // Set an interval to check for various conditions every second
 const intervalId = setInterval(() => {
