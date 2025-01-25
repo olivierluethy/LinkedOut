@@ -219,7 +219,10 @@ function toggleFunctionality(isToggleActive) {
       const contentContainer = document.querySelector(".relative");
       if (contentContainer) {
         contentContainer.style.visibility = "visible";
-        startStopwatch();
+        console.log("Target node found");
+        if (!isStopwatchRunning) {
+          startStopwatch();
+        }
         initializeStopwatch();
       }
     }
@@ -244,7 +247,9 @@ function toggleFunctionality(isToggleActive) {
       const contentContainer = document.querySelector(".relative");
       if (contentContainer) {
         contentContainer.style.visibility = "visible";
-        startStopwatch();
+        if (!isStopwatchRunning) {
+          startStopwatch();
+        }
         initializeStopwatch();
       }
       togglePostsWithHeader();
