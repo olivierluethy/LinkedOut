@@ -1,0 +1,11 @@
+-- Storage
+
+Die Erweiterung nutzt den Chrome-Speicher, um Benutzereinstellungen sicher und dauerhaft zu speichern. Dies ermöglicht es der Erweiterung, die individuellen Präferenzen des Nutzers, wie z.B. das Anzeigen oder Ausblenden bestimmter LinkedIn-Inhalte in Bezug auf den Stream, zu speichern und auch nach einem Neustart des Browsers oder einem Seitenwechsel beizubehalten. Durch die Speicherung im Chrome Storage kann sichergestellt werden, dass die Funktionalität der Erweiterung nach den Wünschen des Nutzers personalisiert bleibt, ohne dass die Einstellungen bei jedem Laden der Seite neu vorgenommen werden müssen.
+
+Chrome Storage bietet außerdem den Vorteil, dass es im Vergleich zu anderen Speicheroptionen sicherer und effizienter ist, da es speziell für die Speicherung von Erweiterungsdaten entwickelt wurde.
+
+
+
+-- Hostberechtigung
+
+Host permissions for https://linkedin.com/* are required to ensure that LinkedIn-Feed Cleaner can access and modify content on linkedin.com across all its subdomains. This permission is critical for the extension to identify and hide specific sections on different parts of the site. The permission is strictly scoped to linkedin.com and is used solely to improve the browsing experience by removing unwanted content, with no data being collected or transmitted.
