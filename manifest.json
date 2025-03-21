@@ -1,15 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "LinkedIn Distraction Blocker",
-  "version": "1.0.16",
+  "name": "LinkedOut: Distraction Blocker for LinkedIn™",
+  "version": "1.0.1",
   "description": "A powerful Chrome extension designed to eliminate distractions on LinkedIn, delivering a seamless and focused browsing experience.",
   "action": {
     "default_popup": "popup.html"
   },
   "icons": {
-    "16": "logo16.png",
-    "48": "logo48.png",
-    "128": "logo128.png"
+    "16": "assets/logo16.png",
+    "48": "assets/logo48.png",
+    "128": "assets/logo128.png"
   },
   "background": {
     "service_worker": "background.js"
@@ -22,6 +22,7 @@
         "scripts/profile.js",
         "scripts/startpoint.js",
         "scripts/toggle.js",
+        "scripts/navigation.js",
         "main.js"
       ]
     }

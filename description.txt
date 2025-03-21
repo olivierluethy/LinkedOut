@@ -1,47 +1,47 @@
-🔹 **LinkedIn Distraction Blocker: Simplify Your LinkedIn Experience** 🔹
+🔹 **LinkedOut: The Distraction Blocker for LinkedIn** 🔹  
 
-The LinkedIn Distraction Blocker Chrome extension is crafted to enhance your productivity on LinkedIn by removing distractions and unwanted elements. With a cleaner, more focused interface, you can concentrate on what truly matters without the noise of constant updates and recommendations.
+Maximize your productivity on LinkedIn with **LinkedOut**, a Chromium-based browser extension designed to eliminate distractions and unwanted elements. By streamlining your LinkedIn interface, it helps you stay focused on what truly matters—without the noise of endless updates and recommendations.  
 
-Our official website: https://linkedin-distraction-blocker.carrd.co/
-
----
-
-### ✨ **Key Features** ✨
-
-- 🏠 **Remove LinkedIn Feeds on Home Page**  
-  Declutter your homepage by eliminating the endless stream of updates and recommendations. Perfect for maintaining a distraction-free LinkedIn experience.
-
-- 🔗 **Clean "My Network" Recommendations**  
-  Focus on your own connections by removing recommendations in the "My Network" section. If you’re interested in connecting with someone specific, simply search for their name directly.
-
-- 👤 **Clear Recommendations in Profile Section**  
-Maintain focus on your own profile by removing suggestions related to others. You can still update your profile without being distracted by external content.
-
-- 👤 **Clear Recommendations in Profile Section after connecting with somebody** 
-Maintain focus on your own profile by removing suggestions related to others. You can still update your profile without being distracted by external content.
-
-- 🚫 ** Minimalist Notifications**
-A red dotted bell icon removed to keep you focused
-Reduce visual noise and stay focused on your tasks. No more unnecessary notifications. 
-
-- 🛡️ **Smart Blocking for Notifications Bypass Attempts**  
-  For users who might be tempted to visit the notification section manually, the LinkedIn Distraction Blocker steps in. If you try to access the notifications section via the URL, the extension smartly redirects you to your home feed, ensuring a focused experience.
+🌐 **Official Website:** https://linkedin-distraction-blocker.carrd.co/
 
 ---
 
-### 🤝 **User Support and Feedback** 🤝
+### ✨ **Key Features** ✨  
 
-Encountering issues or have suggestions? I’m committed to continuous improvement and value your feedback. Please contact me at:  
-✉️ muskox.beryl2671@eagereverest.com
+- 🏠 **Remove Feeds from the Home Page**  
+  Say goodbye to the constant stream of updates and recommendations. Maintain a clean, distraction-free homepage and stay on track with your professional goals.  
+
+- 🔗 **Declutter the "My Network" Section**  
+  Focus solely on your existing connections by eliminating unsolicited recommendations. Need to connect with someone new? Simply search for them directly.  
+
+- 👤 **Streamline the Profile Section**  
+  Keep your profile page distraction-free by removing suggestions related to others, allowing you to concentrate on updating your own profile without interruptions.  
+
+- 🚫 **Minimalist Notifications**  
+  A subtle yet effective tweak—removing the red-dotted bell icon—to minimize visual noise and keep you focused on your tasks.  
+
+- 🛡️ **Smart Notification Blocking**  
+  If you attempt to access LinkedIn notifications manually via URL, **LinkedOut** redirects you back to your home feed, reinforcing a distraction-free experience.  
 
 ---
 
-### 🌟 **Why Choose LinkedIn Distraction Blocker?** 🌟
+### 🤝 **Support & Feedback** 🤝  
 
-LinkedIn Distraction Blocker helps you stay focused on your career objectives by cutting through the clutter. Install today to streamline your professional experience on LinkedIn!
+Have questions or suggestions? Your feedback is invaluable! Feel free to reach out:  
+✉️ **muskox.beryl2671@eagereverest.com**  
 
 ---
 
-🛠 **Note:** This extension is designed for users seeking a more productive LinkedIn experience without the option to toggle it off. Use it intuitively to save valuable time and boost your efficiency.
+### 🌟 **Why Choose LinkedOut?** 🌟  
+
+Stay laser-focused on your professional goals by eliminating distractions. Install **LinkedOut** today and experience a cleaner, more productive LinkedIn.  
+
+---
+
+🛠 **Note:** This extension is intentionally designed to provide a distraction-free LinkedIn experience **without an on/off toggle**. Use it intuitively to reclaim your time and enhance your efficiency.  
+
+---
+
+⚠️ **Disclaimer:** This extension is an independent tool and is not affiliated, endorsed, or supported by LinkedIn in any way.  
 
 ---

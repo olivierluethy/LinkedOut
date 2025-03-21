@@ -1,156 +1,147 @@
-// Funktion zur Anpassung der URL-Prüfung
-function removeElements() {
-  startPoints();
+const loopSite = setInterval(() => {
+  const { pathname: path, href: url, hostname } = window.location;
 
-  // Check inside the entire body element if there is an element with the content of "Try 1 month of Premium for CHF0"
-  function checkForPremiumOffer() {
-    // Alle Paragraphen im Dokument durchgehen
-    const allParagraphs = document.querySelectorAll("p");
+  // Clean up notification count in title
+  document.title = document.title.replace(/\s*\(\d+\)/g, "");
 
-    for (let i = 0; i < allParagraphs.length; i++) {
-      // Überprüfen, ob der Paragraph den gewünschten Text enthält
-      if (
-        allParagraphs[i].textContent.includes("Try 1 month of Premium for CHF0")
-      ) {
-        // Nächstes div-Element, das diesen Paragraphen enthält, finden
-        const parentDiv = allParagraphs[i].closest("div");
+  navigation();
 
-        if (parentDiv) {
-          // Das div-Element entfernen
-          parentDiv.remove();
-          return true; // Angebot gefunden und entfernt
-        }
-      }
-    }
-
-    return false; // Angebot nicht gefunden
-  }
-
-  // Die Funktion aufrufen, um nach dem Angebot zu suchen
-  const hasOffer = checkForPremiumOffer();
-
-  if (hasOffer) {
-    console.log("Premium-Angebot gefunden und entfernt!");
-  } else {
-    console.log("Premium-Angebot nicht gefunden.");
-  }
-
-  // Überprüfung auf Notifications
-  if (
-    window.location.hostname === "www.linkedin.com" &&
-    window.location.pathname.startsWith("/notifications")
+  // Handle different pages
+  if (path === "/feed/") handleFeed();
+  else if (path.includes("mynetwork")) handleMyNetwork();
+  else if (
+    url.match(
+      /^https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-%]+-?[a-zA-Z0-9]*\/?$/
+    )
+  ) {
+    profile();
+  } else if (path === "/groups/") handleGroups();
+  else if (path === "/events/") handleEvents();
+  else if (
+    hostname === "www.linkedin.com" &&
+    path.startsWith("/notifications")
   ) {
     window.location.href = "https://www.linkedin.com/";
-  }
-
-  // Überprüfung auf Feed
-  if (window.location.href.includes("linkedin.com/feed/")) {
-    const promoAd = document.querySelector(".update-components-promo");
-    if (promoAd) {
-      promoAd.style.display = "none";
+  } else if (
+    path.match(
+      /^\/in\/[a-zA-Z0-9-%]+-?[a-zA-Z0-9]*\/(details\/(interests|languages|skills|projects|certifications)|recent-activity\/all)\/?(\?.*)?$/
+    )
+  ) {
+    // If the URL matches any of the listed patterns
+    console.log("Matched LinkedIn details page");
+    const adsWidget = document.querySelector(
+      "aside[aria-label='Ads and widget recommendations']"
+    );
+    if (adsWidget) {
+      adsWidget.style.display = "none";
     }
-    togglePostsWithHeader();
+    // People you may know or want to follow
+    const interested = document.querySelector("aside[aria-label='Interests']");
+    if (interested) {
+      interested.style.display = "none";
+    }
+  } else if (
+    path.match(
+      /^\/in\/[a-zA-Z0-9-%]+-?[a-zA-Z0-9]*\/recent-activity\/(comments|images|reactions)\/?$/
+    )
+  ) {
+    console.log("Matched LinkedIn recent activity page");
+    // People you may know or want to follow
+    const interested = document.querySelector("aside[aria-label='Interests']");
+    if (interested) {
+      interested.style.display = "none";
+    }
   }
 
-  // Überprüfung auf "Mynetwork"
-  else if (window.location.href.includes("linkedin.com/mynetwork/")) {
-    mynetwork();
+  // Check toggle state and handle additional cases
+  chrome.storage.local.get(["toggleState"], ({ toggleState = false }) => {
+    const toggleActive = toggleState;
 
-    /* Removing Nav Elements */
+    // Company posts
+    if (/\/company\/.*?\/posts\//.test(path)) {
+      if (toggleActive) handleCompanyPosts();
+      else window.location.href = "https://linkedin.com";
+    }
 
-    // Get the nav element with the class "en2g8a0"
-    const navElement = document.querySelector(".en2g8a0");
+    // Company page
+    if (/\/company\//.test(path))
+      hideElement(".scaffold-layout__aside[aria-label='Advertisement']");
 
-    // Home Red Icon for Notification --
-    // Get the first li element
-    const firstLi = navElement.querySelector("ul li:nth-child(1)");
+    // Recent activity
+    if (
+      /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/(comments|reactions|all)\/$/.test(
+        path
+      )
+    ) {
+      if (toggleActive) handleRecentActivity();
+      else window.location.href = "https://linkedin.com";
+    }
 
-    // Get the nested span element within the first li
-    const targetSpan = firstLi.querySelector("a span span");
+    // Search results
+    if (/^\/search\/results\/all/.test(path)) {
+      hideElement(".scaffold-layout__aside[aria-label='Search suggestions']");
+    }
+  });
+}, 1000);
 
-    // Do something with the target span, for example, change its text content
-    targetSpan.style.visibility = "hidden";
+function handleEvents() {
+  const main = document.querySelector("main");
+  if (main) {
+    // Get the third child (index 2)
+    const thirdChild = main.children[2];
 
-    // Notification clock --
-    // Get the 5th li element within the ul element inside the nav element
-    const fifthLi = navElement.querySelector("ul li:nth-child(5)");
-
-    // Set the visibility style of the 5th li element to "hidden"
-    fifthLi.style.visibility = "hidden";
-
-    // Try premium
-    // Get the element with the data-view-name attribute
-    const targetElement = document.querySelector(
-      '[data-view-name="premium-nav-upsell-text"]'
-    );
-
-    // Do something with the target element, for example, change its text content
-    targetElement.style.visibility = "hidden";
-  }
-
-  // Überprüfung auf Profil
-  else if (window.location.href.startsWith("https://www.linkedin.com/in")) {
-    profile();
-  }
-
-  // Überprüfung auf Gruppen
-  else if (window.location.href.includes("linkedin.com/groups/")) {
-    const recommendedGroups = document.querySelector(
-      'aside.scaffold-layout__aside[aria-label="Groups you might be interested in"]'
-    );
-    if (recommendedGroups) {
-      recommendedGroups.remove();
+    if (thirdChild) {
+      // Remove the third child element
+      main.removeChild(thirdChild);
     }
   }
 }
 
-// MutationObserver zur Beobachtung von DOM-Änderungen
-const observer = new MutationObserver(removeElements);
-observer.observe(document.body, { childList: true, subtree: true });
+function handleFeed() {
+  const mainElement = document.querySelector("main[aria-label='Main Feed']");
+  if (mainElement?.children[1])
+    mainElement.children[1].style.visibility = "hidden";
 
-// Sofortige Ausführung der Funktion
-removeElements();
+  const element = document.querySelector(
+    "aside[aria-label='Add to your feed']"
+  );
+  if (element) element.style.display = "none";
 
-// Select the nav element with the specified aria-label
-const nav = document.querySelector('nav[aria-label="Primary Navigation"]');
+  const sidePromo = document.querySelector(
+    "div[role='region'][aria-label='Side Bar']"
+  );
+  if (sidePromo?.children[2]) sidePromo.children[2].style.display = "none";
 
-// Check if the nav element exists
-if (nav) {
-  // Find the first ul inside the nav
-  const ul = nav.querySelector("ul");
+  const ul = document.querySelector("ul[aria-label='Account']");
+  const firstChild = ul.firstElementChild;
+  if (firstChild) {
+    firstChild.style.visibility="hidden";
+  }
 
-  // Check if the ul element exists
-  if (ul) {
-    // Select the first li inside the ul
-    const firstLi = ul.querySelector("li");
+  handleHomeFeed();
+}
 
-    // Check if the first li exists
-    if (firstLi) {
-      // Add a click event listener to the first li
-      firstLi.addEventListener("click", function () {
-        // Redirect to LinkedIn
-        window.location.href = "https://www.linkedin.com";
-      });
-    }
+function handleCompanyPosts() {
+  const targetNode = document.querySelector(".feed-container-theme");
+  if (targetNode) {
+    console.log("Company part posts found");
+    if (!isStopwatchRunning) startStopwatch();
+    hideElement(".scaffold-layout__aside[aria-label='Advertisement']");
   }
 }
 
-// Wähle das div mit der Klasse "global-nav__content"
-const navContent = document.querySelector("div.global-nav__content");
-
-// Überprüfen, ob das div existiert
-if (navContent) {
-  // Wähle das erste Anker-Element (a) innerhalb des divs
-  const anchor = navContent.querySelector("a");
-
-  // Überprüfen, ob das Anker-Element existiert
-  if (anchor) {
-    // Füge einen Click-Event-Listener hinzu
-    anchor.addEventListener("click", function (event) {
-      // Verhindere die Standardaktion des Links
-      event.preventDefault();
-      // Leite den Benutzer zu LinkedIn weiter
-      window.location.href = "https://www.linkedin.com";
-    });
+function handleRecentActivity() {
+  const targetNode = document.querySelector(".scaffold-layout__sidebar");
+  if (targetNode) {
+    console.log("Target node found");
+    if (!isStopwatchRunning) startStopwatch();
   }
+}
+
+function handleGroups() {
+  console.log("Your inside of groups");
+  const recommendedGroups = document.querySelector(
+    'aside.scaffold-layout__aside[aria-label="Groups you might be interested in"]'
+  );
+  if (recommendedGroups) recommendedGroups.style.display = "none";
 }

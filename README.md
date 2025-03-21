@@ -8,7 +8,7 @@
     <img src="logo.png" alt="Logo" width="200" height="200">
   </a>
 
-  <h3 align="center">LinkedIn Distraction Blocker</h3>
+  <h3 align="center">LinkedOut</h3>
   <h4 align="center">Google Chrome extension that removes all the distractions within LinkedIn so you can focus on you.</h4>
 
   <p align="center">
@@ -27,7 +27,7 @@
 
 ## Description
 
-The LinkedIn Distraction Blocker is a Chrome extension designed to enhance your LinkedIn browsing experience by removing unwanted elements from the platform. This extension specifically targets and removes the feed, news section, and various modules, providing a cleaner interface for users who want to focus on essential content.
+The LinkedOut is a Chrome extension designed to enhance your LinkedIn browsing experience by removing unwanted elements from the platform. This extension specifically targets and removes the feed, news section, and various modules, providing a cleaner interface for users who want to focus on essential content.
 
 <div align="center">
 
@@ -82,7 +82,10 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_overflow_intro
 <br>
 
 3. Exmple Prototype Creation for Distraction Table Overview
-https://codepen.io/Olibaba02/pen/raBOGwx
+https://codepen.io/Olibaba02/pen/raBOGwx<br>
+
+4. Centered text in horizontal rule
+https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule
 
 ## License
 

@@ -8,4 +8,4 @@ Chrome Storage bietet außerdem den Vorteil, dass es im Vergleich zu anderen Spe
 
 -- Hostberechtigung
 
-Host permissions for https://linkedin.com/* are required to ensure that LinkedIn-Feed Cleaner can access and modify content on linkedin.com across all its subdomains. This permission is critical for the extension to identify and hide specific sections on different parts of the site. The permission is strictly scoped to linkedin.com and is used solely to improve the browsing experience by removing unwanted content, with no data being collected or transmitted.
+Host permissions for https://linkedin.com/* are required to ensure that LinkedOut can access and modify content on linkedin.com across all its subdomains. This permission is critical for the extension to identify and hide specific sections on different parts of the site. The permission is strictly scoped to linkedin.com and is used solely to improve the browsing experience by removing unwanted content, with no data being collected or transmitted.
