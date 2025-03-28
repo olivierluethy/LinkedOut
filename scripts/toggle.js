@@ -157,24 +157,65 @@ let alertDisplay = 0;
 
 function handleHomeFeed() {
   console.log("You're inside of feed");
-  chrome.storage.local.get(["toggleState"], ({ toggleState = false }) => {
-    if (!toggleState) return;
 
-    if (alertDisplay === 0) alertDisplay++;
+  // Funktion zum Überprüfen des toggleState
+  const checkToggleStateAndProcess = () => {
+    chrome.storage.local.get(["toggleState"], ({ toggleState = false }) => {
+      if (!toggleState) {
+        console.log("Processing stopped due to toggleState being false");
+        return;
+      }
 
-    const contentContainer = document.querySelector(".relative");
-    if (!contentContainer) return;
+      // Nur einmalige Alert-Anzeige
+      if (alertDisplay === 0) {
+        alertDisplay++;
+      }
 
-    document
-      .querySelectorAll("[data-view-name='feed-full-update']")
-      .forEach((el) => {
-        if (el.querySelector(".update-components-header__text-wrapper"))
-          el.remove();
+      const contentContainer = document.querySelector(".relative");
+      if (!contentContainer) {
+        console.log("Content container not found");
+        return;
+      }
+
+      // Verarbeitung der Feed-Elemente
+      const feedElements = document.querySelectorAll(
+        "[data-view-name='feed-full-update']"
+      );
+      feedElements.forEach((el) => {
+        // Erneute Überprüfung vor jeder Verarbeitung
+        chrome.storage.local.get(["toggleState"], ({ toggleState = false }) => {
+          if (!toggleState) {
+            console.log("Element processing aborted due to toggleState change");
+            return;
+          }
+
+          if (el.querySelector(".update-components-header__text-wrapper")) {
+            el.remove();
+          }
+        });
       });
 
-    hideElement(
-      "button.artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal"
-    );
+      // Verstecken des Buttons mit erneuter Überprüfung
+      chrome.storage.local.get(["toggleState"], ({ toggleState = false }) => {
+        if (toggleState) {
+          hideElement(
+            "button.artdeco-button.artdeco-button--secondary.mv5.t-14.t-black.t-normal"
+          );
+        }
+      });
+    });
+  };
+
+  // Initialer Aufruf
+  checkToggleStateAndProcess();
+
+  // Listener für Änderungen am toggleState während der Verarbeitung
+  const toggleListener = chrome.storage.onChanged.addListener((changes) => {
+    if (changes.toggleState && !changes.toggleState.newValue) {
+      console.log("Feed processing stopped due to toggle change to false");
+      // Entfernen des Listeners, wenn toggle auf false gesetzt wird
+      chrome.storage.onChanged.removeListener(toggleListener);
+    }
   });
 }
 

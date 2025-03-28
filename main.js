@@ -15,8 +15,7 @@ const loopSite = setInterval(() => {
     )
   ) {
     profile();
-  } else if (path === "/groups/") handleGroups();
-  else if (path === "/events/") handleEvents();
+  } else if (path === "/events/") handleEvents();
   else if (
     hostname === "www.linkedin.com" &&
     path.startsWith("/notifications")
@@ -55,31 +54,37 @@ const loopSite = setInterval(() => {
 
   // Check toggle state and handle additional cases
   chrome.storage.local.get(["toggleState"], ({ toggleState = false }) => {
-    const toggleActive = toggleState;
+    try {
+      const toggleActive = toggleState;
+      const path = window.location.pathname; // Assuming 'path' is from the current URL
 
-    // Company posts
-    if (/\/company\/.*?\/posts\//.test(path)) {
-      if (toggleActive) handleCompanyPosts();
-      else window.location.href = "https://linkedin.com";
-    }
+      // Company posts
+      if (/\/company\/.*?\/posts\//.test(path)) {
+        if (toggleActive) handleCompanyPosts();
+        else window.location.href = "https://linkedin.com";
+      }
 
-    // Company page
-    if (/\/company\//.test(path))
-      hideElement(".scaffold-layout__aside[aria-label='Advertisement']");
+      // Company page
+      if (/\/company\//.test(path)) {
+        hideElement(".scaffold-layout__aside[aria-label='Advertisement']");
+      }
 
-    // Recent activity
-    if (
-      /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/(comments|reactions|all)\/$/.test(
-        path
-      )
-    ) {
-      if (toggleActive) handleRecentActivity();
-      else window.location.href = "https://linkedin.com";
-    }
+      // Recent activity
+      if (
+        /^\/in\/[a-zA-Z0-9-]+\/recent-activity\/(comments|reactions|all)\/$/.test(
+          path
+        )
+      ) {
+        if (toggleActive) handleRecentActivity();
+        else window.location.href = "https://linkedin.com";
+      }
 
-    // Search results
-    if (/^\/search\/results\/all/.test(path)) {
-      hideElement(".scaffold-layout__aside[aria-label='Search suggestions']");
+      // Search results
+      if (/^\/search\/results\/all/.test(path)) {
+        hideElement(".scaffold-layout__aside[aria-label='Search suggestions']");
+      }
+    } catch (error) {
+      console.error("Error while handling storage or context: ", error);
     }
   });
 }, 1000);
@@ -113,9 +118,8 @@ function handleFeed() {
   if (sidePromo?.children[2]) sidePromo.children[2].style.display = "none";
 
   const ul = document.querySelector("ul[aria-label='Account']");
-  const firstChild = ul.firstElementChild;
-  if (firstChild) {
-    firstChild.style.visibility="hidden";
+  if (ul && ul.firstElementChild) {
+    ul.firstElementChild.style.visibility = "hidden";
   }
 
   handleHomeFeed();
@@ -136,12 +140,4 @@ function handleRecentActivity() {
     console.log("Target node found");
     if (!isStopwatchRunning) startStopwatch();
   }
-}
-
-function handleGroups() {
-  console.log("Your inside of groups");
-  const recommendedGroups = document.querySelector(
-    'aside.scaffold-layout__aside[aria-label="Groups you might be interested in"]'
-  );
-  if (recommendedGroups) recommendedGroups.style.display = "none";
 }

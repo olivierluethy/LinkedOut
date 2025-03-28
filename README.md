@@ -5,7 +5,7 @@
 <br />
 <p align="center">
   <a href="github.com/Olivier_Luethy/TackPad.git">
-    <img src="logo.png" alt="Logo" width="200" height="200">
+    <img src="assets/logo.png" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">LinkedOut</h3>
@@ -73,19 +73,16 @@ If you would like to contribute to this project, feel free to fork the repositor
 
 ### Used Links
 
-1. Custom Scrollbar Example
-https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_scrollbar
+1. [Custom Scrollbar Example](https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_scrollbar)
 <br>
 
-2. CSS Object Overflow Example
-https://www.w3schools.com/css/tryit.asp?filename=trycss_overflow_intro
+2. [CSS Object Overflow Example](https://www.w3schools.com/css/tryit.asp?filename=trycss_overflow_intro)
 <br>
 
-3. Exmple Prototype Creation for Distraction Table Overview
-https://codepen.io/Olibaba02/pen/raBOGwx<br>
+3. [Exmple Prototype Creation for Distraction Table Overview](https://codepen.io/Olibaba02/pen/raBOGwx)
+<br>
 
-4. Centered text in horizontal rule
-https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule
+4. [Centered text in horizontal rule](https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule)
 
 ## License
 

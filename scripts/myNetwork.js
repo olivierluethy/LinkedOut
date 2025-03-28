@@ -1,5 +1,50 @@
 function handleMyNetwork() {
   console.log("Your inside of Network");
+
+  // Accessing the root element
+  const root = document.getElementById("root");
+
+  if (root) {
+    // Safely access the logo element, checking each child level
+    const logo =
+      root.children[3]?.children[0]?.children[0]?.children[0]?.children[0]
+        ?.children[0];
+
+    // Safely access the home icon element, checking each child level
+    const homeIcon =
+      root.children[3]?.children[0]?.children[0]?.children[0]?.children[0]
+        ?.children[2]?.children[0]?.children[0]?.children[0]?.children[0];
+
+    // Event listener for the logo click to reload the page
+    if (logo) {
+      logo.addEventListener("click", () => {
+        console.log("Logo clicked, reloading page in 1 second.");
+
+        // Wait for 1 second before reloading the page
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // 1000 milliseconds = 1 second
+      });
+    } else {
+      console.log("Logo element not found.");
+    }
+
+    // Event listener for the home icon click to reload the page
+    if (homeIcon) {
+      homeIcon.addEventListener("click", () => {
+        console.log("Home icon clicked, reloading page.");
+        // Wait for 1 second before reloading the page
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // 1000 milliseconds = 1 second
+      });
+    } else {
+      console.log("Home icon element not found.");
+    }
+  } else {
+    console.log("Root element not found.");
+  }
+
   const ad = document.querySelector("iframe[title='Advertisement']");
   if (ad) {
     ad.style.display = "none";
@@ -67,18 +112,5 @@ function handleMyNetwork() {
     }
   } else {
     console.warn("Nav element or its first child not found");
-  }
-
-  // Popover section
-  const popoverElement = document.querySelector("div[popover='manual']");
-  if (
-    popoverElement &&
-    popoverElement.children[0] &&
-    popoverElement.children[0].children[4]
-  ) {
-    const popover = popoverElement.children[0].children[4];
-    popover.style.display = "none";
-  } else {
-    console.warn("Popover element or its nested children not found");
   }
 }
